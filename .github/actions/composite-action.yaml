@@ -1,0 +1,32 @@
+# .github/actions/validar-topico-readme/action.yml
+name: 'Validar Tópico no README.md'
+description: 'Valida se um tópico específico está presente no ficheiro README.md do repositório.'
+inputs:
+  topic_to_validate:
+    description: 'O tópico (palavra/frase) a procurar no README.md.'
+    required: true
+  readme_path:
+    description: 'O caminho para o ficheiro README.md (por defeito: README.md).'
+    required: false
+    default: 'README.md'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🔍 Procurar tópico no README.md
+      run: |
+        TOPIC="${{ inputs.topic_to_validate }}"
+        README_FILE="${{ inputs.readme_path }}"
+        echo "A verificar se o '$README_FILE' contém o tópico: '$TOPIC'..."
+        if [ ! -f "$README_FILE" ]; then
+          echo "::error title=Validação README.md::❌ ERRO: Ficheiro '$README_FILE' não encontrado."
+          exit 1
+        fi
+
+        if grep -q "$TOPIC" "$README_FILE"; then
+          echo "::notice title=Validação README.md::✅ O '$README_FILE' contém o tópico '$TOPIC'."
+        else
+          echo "::error title=Validação README.md::❌ ERRO: O '$README_FILE' NÃO contém o tópico '$TOPIC'."
+          exit 1 # Falha a etapa
+        fi
+      shell: bash

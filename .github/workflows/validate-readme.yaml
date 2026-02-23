@@ -30,15 +30,8 @@ jobs:
           fi
         shell: bash
 
-      - name: ✅ Validar se o README.md contém o tópico 'development'
-        id: check_development_topic
-        run: |
-          TOPIC="development"
-          echo "A verificar se o README.md contém o tópico: '$TOPIC'..."
-          if grep -q "$TOPIC" README.md; then
-            echo "::notice title=Validação README.md::✅ O README.md contém o tópico '$TOPIC'."
-          else
-            echo "::error title=Validação README.md::❌ ERRO: O README.md NÃO contém o tópico '$TOPIC'."
-            exit 1 # Falha a etapa do workflow
-          fi
-        shell: bash
+      - name: ✅ Validar tópico 'development' no README.md
+        uses: ./.github/actions/composite-action.yaml
+        with:
+          topic_to_validate: 'development'
+          # readme_path: 'README.md' 
