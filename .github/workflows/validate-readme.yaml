@@ -1,0 +1,44 @@
+# .github/workflows/validar-readme.yml
+
+name: Validação do README.md 📄
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validar_conteudo_readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚀 Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: ✅ Validar se o README.md contém o nome do repositório
+        id: check_repo_name
+        run: |
+          REPO_NAME="${{ github.event.repository.name }}"
+          echo "A verificar se o README.md contém o nome do repositório: '$REPO_NAME'..."
+          if grep -q "$REPO_NAME" README.md; then
+            echo "::notice title=Validação README.md::✅ O README.md contém o nome do repositório '$REPO_NAME'."
+          else
+            echo "::error title=Validação README.md::❌ ERRO: O README.md NÃO contém o nome do repositório '$REPO_NAME'."
+            exit 1 # Falha a etapa do workflow
+          fi
+        shell: bash
+
+      - name: ✅ Validar se o README.md contém o tópico 'development'
+        id: check_development_topic
+        run: |
+          TOPIC="development"
+          echo "A verificar se o README.md contém o tópico: '$TOPIC'..."
+          if grep -q "$TOPIC" README.md; then
+            echo "::notice title=Validação README.md::✅ O README.md contém o tópico '$TOPIC'."
+          else
+            echo "::error title=Validação README.md::❌ ERRO: O README.md NÃO contém o tópico '$TOPIC'."
+            exit 1 # Falha a etapa do workflow
+          fi
+        shell: bash
