@@ -38,7 +38,10 @@ jobs:
   create_issue_on_failure:
     runs-on: ubuntu-latest
     needs: validar_conteudo_readme 
-    if: failure()         
+    if: failure()
+    outputs:
+      issue_title_out: ${{ steps.set_issue_vars.outputs.issue_title }}
+      issue_body_out: ${{ steps.set_issue_vars.outputs.issue_body }}        
     steps:
       - name: ⚙️ Definir variáveis para o Issue
         id: set_issue_vars 
@@ -67,8 +70,8 @@ jobs:
     if: success()
     uses: nathancarrilho/github-actions-reusable/.github/workflows/create-issue.yaml@main
     with:
-      issue_title: ${{ steps.set_issue_vars.outputs.issue_title }}
-      issue_body: ${{ steps.set_issue_vars.outputs.issue_body }}
+      issue_title: ${{ needs.create_issue_on_failure.outputs.issue_title_out }}
+      issue_body: ${{ needs.create_issue_on_failure.outputs.issue_body_out }}
       id: created_issue_caller
         # Se precisar do número do issue criado:
         # outputs:
