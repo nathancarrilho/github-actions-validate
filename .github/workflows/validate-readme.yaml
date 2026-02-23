@@ -63,14 +63,13 @@ jobs:
           echo "issue_body=$ISSUE_BODY" >> "$GITHUB_OUTPUT"
 
   call_reusable_create_issue:
-      - name: 📝 Chamar Reusable Workflow para Criar Issue
-        needs: create_issue_on_failure
-        if: success()
-        uses: nathancarrilho/github-actions-reusable/.github/workflows/create-issue.yaml@main
-        with:
-          issue_title: ${{ steps.set_issue_vars.outputs.issue_title }}
-          issue_body: ${{ steps.set_issue_vars.outputs.issue_body }}
-        id: created_issue_caller
+    needs: create_issue_on_failure
+    if: success()
+    uses: nathancarrilho/github-actions-reusable/.github/workflows/create-issue.yaml@main
+    with:
+      issue_title: ${{ steps.set_issue_vars.outputs.issue_title }}
+      issue_body: ${{ steps.set_issue_vars.outputs.issue_body }}
+      id: created_issue_caller
         # Se precisar do número do issue criado:
         # outputs:
         #   issue_number: ${{ steps.created_issue_caller.outputs.issue_number }}
