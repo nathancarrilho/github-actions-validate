@@ -63,7 +63,7 @@ jobs:
           echo "issue_body=$ISSUE_BODY" >> "$GITHUB_OUTPUT"
 
       - name: 📝 Chamar Reusable Workflow para Criar Issue
-        uses: nathancarrilho/github-actions-reusable/.github/workflows/create-issue.yaml 
+        uses: nathancarrilho/github-actions-reusable/.github/workflows/create-issue.yaml@main
         with:
           issue_title: ${{ steps.set_issue_vars.outputs.issue_title }}
           issue_body: ${{ steps.set_issue_vars.outputs.issue_body }}
