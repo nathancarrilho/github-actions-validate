@@ -72,7 +72,6 @@ jobs:
     with:
       issue_title: ${{ needs.create_issue_on_failure.outputs.issue_title_out }}
       issue_body: ${{ needs.create_issue_on_failure.outputs.issue_body_out }}
-      id: created_issue_caller
         # Se precisar do número do issue criado:
         # outputs:
         #   issue_number: ${{ steps.created_issue_caller.outputs.issue_number }}
