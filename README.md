@@ -1,1 +1,1 @@
-# github-actions-validate-2
+# github-actions-validate
