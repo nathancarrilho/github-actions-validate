@@ -31,7 +31,7 @@ jobs:
         shell: bash
 
       - name: ✅ Validar tópico 'development' no README.md
-        uses: ./.github/actions/composite-action.yaml
+        uses: ./.github/actions
         with:
           topic_to_validate: 'development'
           # readme_path: 'README.md' 
