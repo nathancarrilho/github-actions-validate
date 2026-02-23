@@ -1,4 +1,3 @@
-# .github/actions/validar-topico-readme/action.yml
 name: 'Validar Tópico no README.md'
 description: 'Valida se um tópico específico está presente no ficheiro README.md do repositório.'
 inputs:
