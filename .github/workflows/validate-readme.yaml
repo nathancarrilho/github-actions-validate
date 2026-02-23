@@ -31,7 +31,6 @@ jobs:
         shell: bash
 
       - name: ✅ Validar tópico 'development' no README.md
-        uses: ./.github/actions
+        uses: ./.github/actions/validate-topic-readme
         with:
           topic_to_validate: 'development'
-          # readme_path: 'README.md' 
