@@ -37,7 +37,7 @@ jobs:
 
   create_issue_on_failure:
     runs-on: ubuntu-latest
-    needs: validation_job 
+    needs: validar_conteudo_readme 
     if: failure()         
     steps:
       - name: ⚙️ Definir variáveis para o Issue
