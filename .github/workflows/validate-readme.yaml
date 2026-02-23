@@ -34,3 +34,40 @@ jobs:
         uses: ./.github/actions/validate-topic-readme
         with:
           topic_to_validate: 'development'
+
+create_issue_on_failure:
+    runs-on: ubuntu-latest
+    needs: validation_job 
+    if: failure()         
+    steps:
+      - name: ⚙️ Definir variáveis para o Issue
+        id: set_issue_vars 
+        run: |
+          # Obter informações do contexto do GitHub
+          BUILD_NAME="${{ github.workflow }}"
+          BUILD_NUMBER="${{ github.run_number }}"
+          # github.run_id é um identificador único para cada execução de workflow
+          RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          # Criar o título e corpo do issue
+          ISSUE_TITLE="🚨 Falha no Workflow '${BUILD_NAME}' - Build #${BUILD_NUMBER} (${{ github.ref_name }})"
+          ISSUE_BODY="Uma execução do workflow **'${BUILD_NAME}'** (Build #${BUILD_NUMBER}) falhou.\n\n" \
+                       "**Repositório:** `${{ github.repository }}`\n" \
+                       "**Branch:** `${{ github.ref_name }}`\n" \
+                       "**Commit SHA:** `${{ github.sha }}`\n" \
+                       "**Link da Execução:** [Ver Detalhes da Execução no GitHub Actions]($RUN_URL)\n\n" \
+                       "Por favor, investigue a causa da falha."
+
+          # Exportar as variáveis para os outputs do step
+          echo "issue_title=$ISSUE_TITLE" >> "$GITHUB_OUTPUT"
+          echo "issue_body=$ISSUE_BODY" >> "$GITHUB_OUTPUT"
+
+      - name: 📝 Chamar Reusable Workflow para Criar Issue
+        uses: ./.github/workflows/create-issue.yaml 
+        with:
+          issue_title: ${{ steps.set_issue_vars.outputs.issue_title }}
+          issue_body: ${{ steps.set_issue_vars.outputs.issue_body }}
+        id: created_issue_caller
+        # Se precisar do número do issue criado:
+        # outputs:
+        #   issue_number: ${{ steps.created_issue_caller.outputs.issue_number }}
