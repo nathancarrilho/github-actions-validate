@@ -61,7 +61,8 @@ jobs:
           # Exportar as variáveis para os outputs do step
           echo "issue_title=$ISSUE_TITLE" >> "$GITHUB_OUTPUT"
           echo "issue_body=$ISSUE_BODY" >> "$GITHUB_OUTPUT"
-
+          
+  call_reusable_create_issue:
       - name: 📝 Chamar Reusable Workflow para Criar Issue
         uses: nathancarrilho/github-actions-reusable/.github/workflows/create-issue.yaml@main
         with:
