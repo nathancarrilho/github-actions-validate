@@ -54,12 +54,12 @@ jobs:
 
           # Criar o título e corpo do issue
           ISSUE_TITLE="🚨 Falha no Workflow '${BUILD_NAME}' - Build #${BUILD_NUMBER} (${{ github.ref_name }})"
-          ISSUE_BODY="Uma execução do workflow **'${BUILD_NAME}'** (Build #${BUILD_NUMBER}) falhou.\n\n" \
-                       "**Repositório:** '${{ github.repository }}'\n" \
-                       "**Branch:** '${{ github.ref_name }}'\n" \
-                       "**Commit SHA:** '${{ github.sha }}'\n" \
-                       "**Link da Execução:** [Ver Detalhes da Execução no GitHub Actions]($RUN_URL)\n\n" \
-                       "Por favor, investigue a causa da falha."
+          ISSUE_BODY="Uma execução do workflow **'${BUILD_NAME}'** (Build #${BUILD_NUMBER}) falhou.\n\n" 
+          ISSUE_BODY=$ISSUE_BODY"**Repositório:** '${{ github.repository }}'\n" 
+          ISSUE_BODY=$ISSUE_BODY"**Branch:** '${{ github.ref_name }}'\n" 
+          ISSUE_BODY=$ISSUE_BODY"**Commit SHA:** '${{ github.sha }}'\n" 
+          ISSUE_BODY=$ISSUE_BODY"**Link da Execução:** [Ver Detalhes da Execução no GitHub Actions]($RUN_URL)\n\n" 
+          ISSUE_BODY=$ISSUE_BODY"Por favor, investigue a causa da falha."
 
           # Exportar as variáveis para os outputs do step
           echo "issue_title=$ISSUE_TITLE" >> "$GITHUB_OUTPUT"
